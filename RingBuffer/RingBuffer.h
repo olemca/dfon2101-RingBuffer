@@ -22,7 +22,7 @@ private:
     int bufferSize;
     int in = 0;
     int out = 0;
-    bool run; 
+    bool run;
     /*I like have this boolean for purpose of starting functions and
         shutting down program.*/
 
