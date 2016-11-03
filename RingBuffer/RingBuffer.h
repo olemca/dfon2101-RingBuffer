@@ -1,12 +1,12 @@
-#pragma once
+#pragma once //Prevent header file from being included multiple times
 
-#include <mutex>
-#include <condition_variable>
+#include <mutex> //We use mutexes so mutliple threads can use same variables
+#include <condition_variable> //Condition variables for 
 
 class RingBuffer {
 public:
-    RingBuffer(int capacity);
-    ~RingBuffer();
+    RingBuffer(int capacity); //Constructor
+    ~RingBuffer(); //Destructor
 
     void inputKeyboard();
     void autoInput();
@@ -22,8 +22,12 @@ private:
     int bufferSize;
     int in = 0;
     int out = 0;
-    bool run;
+    bool run; 
+    /*I like have this boolean for purpose of starting functions and
+        shutting down program.*/
 
+
+    /*Decided to have them private*/
     void add(char val);
     char get();
 };

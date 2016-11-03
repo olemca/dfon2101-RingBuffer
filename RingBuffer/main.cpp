@@ -6,7 +6,7 @@
 //}
 
 int main() {
-    RingBuffer obj(10);
+    RingBuffer obj(10); //Creates a object RingBuffer obj with buffersize 10
 
     //std::thread T1(&RingBuffer::inputKeyboard, &obj);
     
@@ -15,6 +15,8 @@ int main() {
     //std::thread T2(obj.autoInput);
     //std::thread T3(obj.readBuffer);
 
+
+    /*Making threads with lambda functions, Christian Scott showed me this.*/
     std::thread T1([&obj] {
         obj.inputKeyboard();
     });
@@ -30,6 +32,6 @@ int main() {
     T3.join();
 
 
-    //3 ut av 8 threads
+    //3 of 8 threads used
 
 }

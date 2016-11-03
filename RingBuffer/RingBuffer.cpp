@@ -17,7 +17,7 @@ RingBuffer::~RingBuffer() {
 void RingBuffer::add(char val) {
     std::unique_lock<std::mutex> lock(mutex); //Lock mutex
     if ((in + 1) % bufferSize == out) {
-        full_cv.wait(lock);
+        full_cv.wait(lock); //if buffer is full - wait
     }
 
     buffer[in] = val;
@@ -29,7 +29,7 @@ void RingBuffer::add(char val) {
 char RingBuffer::get() {
     std::unique_lock<std::mutex> lock(mutex); //Lock mutex
     while (in == out) {
-        empty_cv.wait(lock); //Wait until buffer is not empty
+        empty_cv.wait(lock); //While empty - wait
     }
 
     char consumed = buffer[out];
@@ -41,27 +41,27 @@ char RingBuffer::get() {
 }
 
 void RingBuffer::inputKeyboard() {
-    while (run) {
+    while (run) { //run is true makes it keep running the function
         std::string tekst;
-        std::getline(std::cin, tekst);
-        if (tekst == "stop") {
+        std::getline(std::cin, tekst); //adds what i type into string tekst
+        if (tekst == "stop") { //"stop" is my command to shut down program
             run = false;
         }
         for (unsigned int i = 0; i < tekst.length(); i++) {
-            add(tekst[i]);
+            add(tekst[i]); //puts each char of tekst into add() function
         }
     }
 }
 
 void RingBuffer::autoInput() {
-    while (run) {
-        add((rand() % 26) + 97);
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    while (run) { //run is true, makes the function keep going
+        add((rand() % 26) + 97); //adds some random letters
+        std::this_thread::sleep_for(std::chrono::milliseconds(500)); //500ms pause
     }
 }
 
 void RingBuffer::readBuffer() {
-    while (run) {
+    while (run) { //run is true, which makes it continue reading buffer
         char thc = get();
         std::cout << thc;
     }
